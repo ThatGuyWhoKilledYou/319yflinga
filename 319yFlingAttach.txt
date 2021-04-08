@@ -1,0 +1,59 @@
+		
+		
+		
+		local Void = false
+		
+		
+				
+				
+				local BodyThrust = Instance.new("BodyThrust")
+				BodyThrust.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+				BodyThrust.Force = Vector3.new(10000,10000,10000)
+				BodyThrust.Location = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+				
+				
+				wait(1)
+				
+				LP = game.Players.LocalPlayer
+				local changeview = false
+				if game.Workspace.CurrentCamera.CameraSubject == LP.Character.Humanoid or gsWorkspace.CurrentCamera.CameraSubject == LP.Character then
+					changeview = true
+				end
+				LP.Character.Humanoid.Name = 1
+				local l = LP.Character["1"]:Clone()
+				l.Parent = LP.Character
+				l.Name = "Humanoid"
+				wait(0.1)
+				LP.Character["1"]:Destroy()
+				if changeview then
+					game:GetService("Workspace").CurrentCamera.CameraSubject = LP.Character
+				end
+				LP.Character.Animate.Disabled = true
+				wait(0.1)
+				LP.Character.Animate.Disabled = false
+				LP.Character.Humanoid.DisplayDistanceType = "None"
+				
+				
+				
+				for i,v in pairs(LP.Backpack:GetChildren())do
+					LP.Character.Humanoid:EquipTool(v)
+				end
+				Void = true
+				if args[1] then
+					for i,v in pairs(findSinglePlayer(args[1])) do
+						if v ~= LP then
+							LP.Character.HumanoidRootPart.CFrame = v.Character["Left Arm"].CFrame
+							wait(0.3)
+							LP.Character.HumanoidRootPart.CFrame = v.Character["Left Arm"].CFrame
+							
+						end
+					end
+				end
+			
+			LP.Character.ChildRemoved:Connect(function(obj)
+				if Void == true then
+					Void = false
+					game.Players.LocalPlayer.Backpack.Punch.GripPos = Vector3.new(99999999999,99999999999,99999999999)
+					game.Players.LocalPlayer.Backpack.Punch.Parent = game.Players.LocalPlayer.Character
+				end
+			end)
